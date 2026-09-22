@@ -17,16 +17,16 @@ public class ControlleurEtudiant implements HttpHandler {
                 ajouterEtudiant(exchange);
                 break;
             case "GET":
-                afficherEtudiant();
+                afficherEtudiant(exchange);
                 break;
             case "PUT":
-                modifierEtudiant();
+                modifierEtudiant(exchange);
                 break;
             case "PATCH":
-                modifierEtudiant();
+                modifierEtudiant(exchange);
                 break;
             case "DELETE":
-                supprimerEtudiant();
+                supprimerEtudiant(exchange);
                 break;
             default:
                 exchange.sendResponseHeaders(404, 0);
@@ -41,9 +41,14 @@ public class ControlleurEtudiant implements HttpHandler {
 //        os.close();
     }
 
-    private void afficherEtudiant() {
+    private void afficherEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("GET ETUDIANT !");
-
+        String response = "Etudiant affiché";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
     }
 
     private void ajouterEtudiant(HttpExchange exchange) throws IOException {
@@ -61,10 +66,22 @@ public class ControlleurEtudiant implements HttpHandler {
         output.close();
     }
 
-    private void modifierEtudiant(){
-        System.out.println("Modifier ETUDIANT !");
+    private void modifierEtudiant(HttpExchange exchange) throws IOException {
+        System.out.println("PUT/PATCH ETUDIANT !");
+        String response = "Etudiant modifié";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
     }
-    private void supprimerEtudiant(){
-        System.out.println("Supprimer ETUDIANT !");
+    private void supprimerEtudiant(HttpExchange exchange) throws IOException{
+        System.out.println("DELETE ETUDIANT !");
+        String response = "Etudiant supprimé";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
     }
 }

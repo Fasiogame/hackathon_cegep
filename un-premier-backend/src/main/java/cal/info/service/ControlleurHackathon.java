@@ -24,22 +24,30 @@ public class ControlleurHackathon implements HttpHandler {
                 ajouterHackathon(exchange);
                 break;
             case "GET":
-                listeHackathons();
+                listeHackathons(exchange);
                 break;
             case "PUT":
-                modifierHackathon();
+                modifierHackathon(exchange);
                 break;
             case "DELETE":
-                supprimerHackathon();
+                supprimerHackathon(exchange);
                 break;
             default:
                 exchange.sendResponseHeaders(404, 0);
                 break;
         }
     }
-    private void listeHackathons(){
-        System.out.println("Liste des Hackathons");
+
+    private void listeHackathons(HttpExchange exchange) throws IOException{
+        System.out.println("GET HACKATHON !");
+        String response = "Hackathon affiché";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
     }
+
     private void ajouterHackathon(HttpExchange exchange) throws IOException {
         System.out.println("POST HACKATHON !");
         InputStream input = exchange.getRequestBody();
@@ -54,11 +62,24 @@ public class ControlleurHackathon implements HttpHandler {
         output.write(octetsReponse);
         output.close();
     }
-    private void modifierHackathon(){
-        System.out.println("Modifier Hackathon");
-    }
-    private void supprimerHackathon(){
-        System.out.println("Supprimer Hackathon");
+
+    private void modifierHackathon(HttpExchange exchange) throws IOException{
+        System.out.println("PUT/PATCH HACKATHON !");
+        String response = "Hackathon modifié";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
     }
 
+    private void supprimerHackathon(HttpExchange exchange) throws IOException{
+        System.out.println("DELETE HACKATHON !");
+        String response = "Hackathon supprimé";
+        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(200, octetsReponse.length);
+        OutputStream output = exchange.getResponseBody();
+        output.write(octetsReponse);
+        output.close();
+    }
 }
