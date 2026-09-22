@@ -1,13 +1,13 @@
-package cal.info;
+package cal.info.modele;
 
 import java.time.LocalDate;
 
-public class hackathon {
+public class Hackathon {
     private String nomHackathon;
     private LocalDate dateHackathon;
     private String lieuHackathon;
 
-    public hackathon(String nomHackathon, LocalDate dateHackathon, String lieuHackathon){
+    public Hackathon(String nomHackathon, LocalDate dateHackathon, String lieuHackathon){
         this.dateHackathon = dateHackathon;
         this.nomHackathon = nomHackathon;
         this.lieuHackathon = lieuHackathon;

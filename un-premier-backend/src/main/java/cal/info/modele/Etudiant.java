@@ -1,23 +1,25 @@
-package cal.info;
+package cal.info.modele;
+import java.util.ArrayList;
 import java.util.List;
 
-public class etudiant {
+public class Etudiant {
     private String nomEtudiant;
     private int ageEtudiant;
     private double noteEtudiant;
-    private List<hackathon> preferences;
+    private List<Hackathon> preferences;
 
-    public etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant) {
+    public Etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant) {
         //this.nomEtudiant = nomEtudiant;
         //this.ageEtudiant = ageEtudiant;
         //this.noteEtudiant = noteEtudiant;
         setNomEtudiant(nomEtudiant);
         setAgeEtudiant(ageEtudiant);
         setNoteEtudiant(noteEtudiant);
+        Hackathon[] preferences = new Hackathon[5];
     }
 
     public void setNomEtudiant(String nomEtudiant) {
-        if (!nomEtudiant.isBlank()) {
+        if (nomEtudiant.isBlank()) {
             throw new IllegalArgumentException("Le nom ne peux pas être vide!");
         }
         this.nomEtudiant = nomEtudiant;
@@ -43,17 +45,17 @@ public class etudiant {
     public double obtenirNote(){
         return this.noteEtudiant;
     }
-    public void ajouterPreferenceHackathon(hackathon hackathon) {
+    public void ajouterPreferenceHackathon(Hackathon hackathon) {
         preferences.add(hackathon);
     }
 
-    public hackathon getPreferences(){
+    public Hackathon getPreferences(){
        return preferences.get(0);
     }
 
     public void afficherPreferences(){
-        for (hackathon hackathon : preferences) {
-            System.out.println(hackathon);
+        for (Hackathon hackathon : preferences) {
+            System.out.println(hackathon.obtenirNom());
         }
     }
 }
