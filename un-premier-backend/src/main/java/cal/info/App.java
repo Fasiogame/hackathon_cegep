@@ -3,6 +3,7 @@ package cal.info;
 import cal.info.modele.Equipe;
 import cal.info.modele.Etudiant;
 import cal.info.modele.Hackathon;
+import cal.info.service.ControlleurEtudiant;
 import cal.info.service.ControlleurHackathon;
 import cal.info.service.GestionHackathon;
 import com.sun.net.httpserver.HttpExchange;
@@ -59,7 +60,7 @@ public static void main(String[] args) throws IOException {
 
     serveur.createContext("/cheminexample", new Example());
     serveur.createContext("/hackathon", new ControlleurHackathon());
-    serveur.createContext("/etudiant", new ControlleurHackathon());
+    serveur.createContext("/etudiant", new ControlleurEtudiant());
 
     // Démarrer le serveur
     serveur.setExecutor(null); // Créer un exécuteur par défaut
