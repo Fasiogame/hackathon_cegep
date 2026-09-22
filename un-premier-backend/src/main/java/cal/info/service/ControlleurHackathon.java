@@ -29,6 +29,9 @@ public class ControlleurHackathon implements HttpHandler {
             case "PUT":
                 modifierHackathon(exchange);
                 break;
+            case "PATCH":
+                modifierHackathon(exchange);
+                break;
             case "DELETE":
                 supprimerHackathon(exchange);
                 break;
