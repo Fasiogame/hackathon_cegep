@@ -54,7 +54,7 @@ public class ControlleurEtudiant implements HttpHandler {
     private void ajouterEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("POST ETUDIANT !");
         InputStream input = exchange.getRequestBody();
-        String requete = new String(input.readAllBytes(),  "UTF-8");
+        String requete = new String(input.readAllBytes(), StandardCharsets.UTF_8);
         input.close();
         System.out.println(requete);
 
