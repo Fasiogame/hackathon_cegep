@@ -1,5 +1,4 @@
 package cal.info.modele;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Etudiant {
@@ -15,24 +14,24 @@ public class Etudiant {
         //this.nomEtudiant = nomEtudiant;
         //this.ageEtudiant = ageEtudiant;
         //this.noteEtudiant = noteEtudiant;
-        setNomEtudiant(nomEtudiant);
-        setAgeEtudiant(ageEtudiant);
-        setNoteEtudiant(noteEtudiant);
+        setNom(nomEtudiant);
+        setAge(ageEtudiant);
+        setNote(noteEtudiant);
         Hackathon[] preferences = new Hackathon[5];
     }
 
-    public void setNomEtudiant(String nomEtudiant) {
+    public void setNom(String nomEtudiant) {
         if (nomEtudiant.isBlank()) {
             throw new IllegalArgumentException("Le nom ne peux pas être vide!");
         }
         this.nomEtudiant = nomEtudiant;
     }
 
-    public void setAgeEtudiant(int ageEtudiant) {
+    public void setAge(int ageEtudiant) {
         this.ageEtudiant = ageEtudiant > 0 ? ageEtudiant : 0;
     }
 
-    public void setNoteEtudiant(double noteEtudiant) {
+    public void setNote(double noteEtudiant) {
         if (noteEtudiant >= 0.0 && noteEtudiant <= 100.0) {
             this.noteEtudiant = noteEtudiant;
         } else {

@@ -48,22 +48,21 @@ public class ControlleurEtudiant implements HttpHandler {
     private void afficherEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("GET ETUDIANT 2!");
         try{
+            //OBJET DEMO
             Etudiant etudiantTest = new Etudiant("Test", 29, 100.0);
-            System.out.println(etudiantTest);
+            //OBJET -> JSON
             byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
-            String etudiantjson = mapper.writeValueAsString(etudiantTest);
+            System.out.println(etudiantConverti);
 
-            System.out.println("Etudiant convertit taille : " + etudiantConverti.length);
-            System.out.println("Etudiant convertit : " + etudiantConverti);
-            System.out.println("Etudiant json : " + etudiantjson);
+//            System.out.println("Etudiant convertit taille : " + etudiantConverti.length);
+//            System.out.println("Etudiant convertit : " + etudiantConverti);
+//            System.out.println("Etudiant json : " + etudiantjson);
 
+            //RESPONSE
             exchange.sendResponseHeaders(200, etudiantConverti.length);
             OutputStream output = exchange.getResponseBody();
             output.write(etudiantConverti);
             output.close();
-
-            System.out.println("Pass 5");
-            System.out.println(etudiantConverti.toString());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -84,10 +83,12 @@ public class ControlleurEtudiant implements HttpHandler {
 //        input.close();
 //        System.out.println(requete);
 
+        //JSON -> OBJET
         InputStream input = exchange.getRequestBody();
-        Etudiant lui = mapper.readValue(input.readAllBytes(), Etudiant.class);
-        System.out.println(lui.toString());
+        Etudiant etudiant = mapper.readValue(input.readAllBytes(), Etudiant.class);
+        System.out.println(etudiant.toString());
 
+        //REPONSE
         String response = "Etudiant ajouté";
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(200, octetsReponse.length);
