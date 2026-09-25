@@ -1,7 +1,9 @@
 package cal.info.service;
 
+import cal.info.modele.Etudiant;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,21 +44,48 @@ public class ControlleurEtudiant implements HttpHandler {
     }
 
     private void afficherEtudiant(HttpExchange exchange) throws IOException {
-        System.out.println("GET ETUDIANT !");
-        String response = "Etudiant affiché";
-        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
-        exchange.sendResponseHeaders(200, octetsReponse.length);
-        OutputStream output = exchange.getResponseBody();
-        output.write(octetsReponse);
-        output.close();
+        System.out.println("GET ETUDIANT 2!");
+
+        Etudiant etudiantTest = new Etudiant("Yohan", 29, 3.3);
+        System.out.println("Pass 1");
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println("Pass 2");
+//        byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
+        try {
+            String etudiant= mapper.writeValueAsString(etudiantTest);
+            System.out.println("Pass 2.5");
+            byte[] etudiantConverti = etudiant.getBytes(StandardCharsets.UTF_8);
+            System.out.println("Pass 3");
+            exchange.sendResponseHeaders(200, etudiantConverti.length);
+            System.out.println("Pass 4");
+            OutputStream output = exchange.getResponseBody();
+            System.out.println("Pass 5");
+            output.write(etudiantConverti);
+            output.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+//        System.out.println("GET ETUDIANT !");
+//        String response = "Etudiant affiché";
+//        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
+//        exchange.sendResponseHeaders(200, octetsReponse.length);
+//        output.write(octetsReponse);
+//        output.close();
     }
 
     private void ajouterEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("POST ETUDIANT !");
+//        InputStream input = exchange.getRequestBody();
+//        String requete = new String(input.readAllBytes(), StandardCharsets.UTF_8);
+//        input.close();
+//        System.out.println(requete);
+
         InputStream input = exchange.getRequestBody();
-        String requete = new String(input.readAllBytes(), StandardCharsets.UTF_8);
-        input.close();
-        System.out.println(requete);
+        ObjectMapper traducteur = new ObjectMapper();
+        Etudiant lui = traducteur.readValue(input.readAllBytes(), Etudiant.class);
+        System.out.println(lui.toString());
 
         String response = "Etudiant ajouté";
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
@@ -82,6 +111,6 @@ public class ControlleurEtudiant implements HttpHandler {
         exchange.sendResponseHeaders(200, octetsReponse.length);
         OutputStream output = exchange.getResponseBody();
         output.write(octetsReponse);
-        output.close(); //test
+        output.close();
     }
 }

@@ -6,7 +6,7 @@ public class Etudiant {
     private String nomEtudiant;
     private int ageEtudiant;
     private double noteEtudiant;
-    private List<Hackathon> preferences;
+//    private List<Hackathon> preferences;
 
     public Etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant) {
         //this.nomEtudiant = nomEtudiant;
@@ -15,7 +15,7 @@ public class Etudiant {
         setNomEtudiant(nomEtudiant);
         setAgeEtudiant(ageEtudiant);
         setNoteEtudiant(noteEtudiant);
-        Hackathon[] preferences = new Hackathon[5];
+//        Hackathon[] preferences = new Hackathon[5];
     }
 
     public void setNomEtudiant(String nomEtudiant) {
@@ -45,17 +45,26 @@ public class Etudiant {
     public double obtenirNote(){
         return this.noteEtudiant;
     }
-    public void ajouterPreferenceHackathon(Hackathon hackathon) {
-        preferences.add(hackathon);
-    }
+//    public void ajouterPreferenceHackathon(Hackathon hackathon) {
+//        preferences.add(hackathon);
+//    }
 
-    public Hackathon getPreferences(){
-       return preferences.get(0);
-    }
+//    public Hackathon getPreferences(){
+//       return preferences.get(0);
+//    }
+//
+//    public void afficherPreferences(){
+//        for (Hackathon hackathon : preferences) {
+//            System.out.println(hackathon.obtenirNom());
+//        }
+//    }
 
-    public void afficherPreferences(){
-        for (Hackathon hackathon : preferences) {
-            System.out.println(hackathon.obtenirNom());
-        }
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "nomEtudiant='" + nomEtudiant + '\'' +
+                ", ageEtudiant=" + ageEtudiant +
+                ", note='" + noteEtudiant + '\'' +
+                '}';
     }
 }
