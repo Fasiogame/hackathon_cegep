@@ -82,6 +82,6 @@ public class ControlleurEtudiant implements HttpHandler {
         exchange.sendResponseHeaders(200, octetsReponse.length);
         OutputStream output = exchange.getResponseBody();
         output.write(octetsReponse);
-        output.close();
+        output.close(); //test
     }
 }
