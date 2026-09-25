@@ -22,7 +22,7 @@ public class Equipe {
 
     public void afficherMembres() {
         for  (Etudiant etudiant : listeMembres) {
-            System.out.println(etudiant.obtenirNom());
+            System.out.println(etudiant.getNom());
         }
     }
 }

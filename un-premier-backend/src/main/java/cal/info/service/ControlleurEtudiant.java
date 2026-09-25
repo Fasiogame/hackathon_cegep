@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ControlleurEtudiant implements HttpHandler {
+    ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String typeRequest = exchange.getRequestMethod();
@@ -45,23 +47,23 @@ public class ControlleurEtudiant implements HttpHandler {
 
     private void afficherEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("GET ETUDIANT 2!");
+        try{
+            Etudiant etudiantTest = new Etudiant("Test", 29, 100.0);
+            System.out.println(etudiantTest);
+            byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
+            String etudiantjson = mapper.writeValueAsString(etudiantTest);
 
-        Etudiant etudiantTest = new Etudiant("Yohan", 29, 3.3);
-        System.out.println("Pass 1");
-        ObjectMapper mapper = new ObjectMapper();
-        System.out.println("Pass 2");
-//        byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
-        try {
-            String etudiant= mapper.writeValueAsString(etudiantTest);
-            System.out.println("Pass 2.5");
-            byte[] etudiantConverti = etudiant.getBytes(StandardCharsets.UTF_8);
-            System.out.println("Pass 3");
+            System.out.println("Etudiant convertit taille : " + etudiantConverti.length);
+            System.out.println("Etudiant convertit : " + etudiantConverti);
+            System.out.println("Etudiant json : " + etudiantjson);
+
             exchange.sendResponseHeaders(200, etudiantConverti.length);
-            System.out.println("Pass 4");
             OutputStream output = exchange.getResponseBody();
-            System.out.println("Pass 5");
             output.write(etudiantConverti);
             output.close();
+
+            System.out.println("Pass 5");
+            System.out.println(etudiantConverti.toString());
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -83,8 +85,7 @@ public class ControlleurEtudiant implements HttpHandler {
 //        System.out.println(requete);
 
         InputStream input = exchange.getRequestBody();
-        ObjectMapper traducteur = new ObjectMapper();
-        Etudiant lui = traducteur.readValue(input.readAllBytes(), Etudiant.class);
+        Etudiant lui = mapper.readValue(input.readAllBytes(), Etudiant.class);
         System.out.println(lui.toString());
 
         String response = "Etudiant ajouté";

@@ -6,7 +6,10 @@ public class Etudiant {
     private String nomEtudiant;
     private int ageEtudiant;
     private double noteEtudiant;
-//    private List<Hackathon> preferences;
+    private List<Hackathon> preferences;
+
+    public Etudiant() {
+    }
 
     public Etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant) {
         //this.nomEtudiant = nomEtudiant;
@@ -15,7 +18,7 @@ public class Etudiant {
         setNomEtudiant(nomEtudiant);
         setAgeEtudiant(ageEtudiant);
         setNoteEtudiant(noteEtudiant);
-//        Hackathon[] preferences = new Hackathon[5];
+        Hackathon[] preferences = new Hackathon[5];
     }
 
     public void setNomEtudiant(String nomEtudiant) {
@@ -30,34 +33,35 @@ public class Etudiant {
     }
 
     public void setNoteEtudiant(double noteEtudiant) {
-        if (noteEtudiant >= 0 || noteEtudiant <= 100) {
+        if (noteEtudiant >= 0.0 && noteEtudiant <= 100.0) {
             this.noteEtudiant = noteEtudiant;
-        }
+        } else {
         this.noteEtudiant = 0;
+        }
     }
 
-    public String obtenirNom(){
+    public String getNom(){
         return this.nomEtudiant;
     }
-    public int obtenirAge(){
+    public int getAge(){
         return this.ageEtudiant;
     }
-    public double obtenirNote(){
+    public double getNote(){
         return this.noteEtudiant;
     }
-//    public void ajouterPreferenceHackathon(Hackathon hackathon) {
-//        preferences.add(hackathon);
-//    }
+    public void ajouterPreferenceHackathon(Hackathon hackathon) {
+        preferences.add(hackathon);
+    }
 
 //    public Hackathon getPreferences(){
-//       return preferences.get(0);
+////       return preferences.get(0);
 //    }
-//
-//    public void afficherPreferences(){
-//        for (Hackathon hackathon : preferences) {
-//            System.out.println(hackathon.obtenirNom());
-//        }
-//    }
+
+    public void afficherPreferences(){
+        for (Hackathon hackathon : preferences) {
+            System.out.println(hackathon.obtenirNom());
+        }
+    }
 
     @Override
     public String toString() {
