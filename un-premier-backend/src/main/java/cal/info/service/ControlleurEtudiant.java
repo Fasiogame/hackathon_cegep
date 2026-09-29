@@ -9,9 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ControlleurEtudiant implements HttpHandler {
     ObjectMapper mapper = new ObjectMapper();
+    HashMap<String, Etudiant> listeEtudiantsTemp = new HashMap<String, Etudiant>();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -51,8 +55,13 @@ public class ControlleurEtudiant implements HttpHandler {
             //OBJET DEMO
             Etudiant etudiantTest = new Etudiant("Test", 29, 100.0);
             //OBJET -> JSON
-            byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
-            System.out.println(etudiantConverti);
+//            byte[] etudiantConverti = mapper.writeValueAsBytes(etudiantTest);
+//            System.out.println(etudiantConverti);
+            String listeTemp = "";
+            for (String i : listeEtudiantsTemp.keySet()) {
+                listeTemp += listeEtudiantsTemp.get(i).toString() + "\n";
+            }
+            byte[] etudiantConverti = mapper.writeValueAsBytes(listeTemp);
 
 //            System.out.println("Etudiant convertit taille : " + etudiantConverti.length);
 //            System.out.println("Etudiant convertit : " + etudiantConverti);
@@ -88,6 +97,8 @@ public class ControlleurEtudiant implements HttpHandler {
         Etudiant etudiant = mapper.readValue(input.readAllBytes(), Etudiant.class);
         System.out.println(etudiant.toString());
 
+        listeEtudiantsTemp.put(etudiant.getNom(), etudiant);
+
         //REPONSE
         String response = "Etudiant ajouté";
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
@@ -99,6 +110,13 @@ public class ControlleurEtudiant implements HttpHandler {
 
     private void modifierEtudiant(HttpExchange exchange) throws IOException {
         System.out.println("PUT/PATCH ETUDIANT !");
+        InputStream input = exchange.getRequestBody();
+        Etudiant etudiant = mapper.readValue(input.readAllBytes(), Etudiant.class);
+        System.out.println(etudiant.toString());
+
+        listeEtudiantsTemp.replace(etudiant.getNom(),  etudiant);
+
+        //REPONSE
         String response = "Etudiant modifié";
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(200, octetsReponse.length);
@@ -108,6 +126,11 @@ public class ControlleurEtudiant implements HttpHandler {
     }
     private void supprimerEtudiant(HttpExchange exchange) throws IOException{
         System.out.println("DELETE ETUDIANT !");
+        InputStream input = exchange.getRequestBody();
+        Etudiant etudiant = mapper.readValue(input.readAllBytes(), Etudiant.class);
+        System.out.println(etudiant.toString());
+        listeEtudiantsTemp.remove(etudiant.getNom());
+
         String response = "Etudiant supprimé";
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(200, octetsReponse.length);
