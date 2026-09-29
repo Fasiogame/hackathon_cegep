@@ -7,21 +7,44 @@ public class Hackathon {
     private LocalDate dateHackathon;
     private String lieuHackathon;
 
+    public Hackathon() {}
+
     public Hackathon(String nomHackathon, LocalDate dateHackathon, String lieuHackathon){
-        this.dateHackathon = dateHackathon;
+        setNom(nomHackathon);
+        setDate(dateHackathon);
+        setLieu(lieuHackathon);
+    }
+
+    public void setNom(String nomHackathon) {
         this.nomHackathon = nomHackathon;
+    }
+
+    public void setDate(LocalDate dateHackathon) {
+        this.dateHackathon = dateHackathon;
+    }
+
+    public void setLieu(String lieuHackathon) {
         this.lieuHackathon = lieuHackathon;
     }
 
-    public String obtenirNom() {
+    public String getNom() {
         return nomHackathon;
     }
 
-    public LocalDate obtenirDate() {
+    public LocalDate getDate() {
         return dateHackathon;
     }
 
-    public String obtenirLieu() {
+    public String getLieu() {
         return lieuHackathon;
+    }
+
+    @Override
+    public String toString() {
+        return "Hackathon{" +
+                "nomHackathon='" + nomHackathon + '\n' +
+                ", dateHackathon=" + dateHackathon +
+                ", lieuHackathon='" + lieuHackathon + '\n' +
+                '}';
     }
 }

@@ -1,11 +1,12 @@
 package cal.info.modele;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Etudiant {
     private String nomEtudiant;
     private int ageEtudiant;
     private double noteEtudiant;
-    private List<Hackathon> preferences;
+    private List<Hackathon> preferences = new ArrayList<Hackathon>(5);
 
     public Etudiant() {
     }
@@ -17,7 +18,6 @@ public class Etudiant {
         setNom(nomEtudiant);
         setAge(ageEtudiant);
         setNote(noteEtudiant);
-        Hackathon[] preferences = new Hackathon[5];
     }
 
     public void setNom(String nomEtudiant) {
@@ -52,22 +52,22 @@ public class Etudiant {
         preferences.add(hackathon);
     }
 
-//    public Hackathon getPreferences(){
-////       return preferences.get(0);
-//    }
+    public Hackathon getPreferences(){
+       return preferences.get(0);
+    }
 
     public void afficherPreferences(){
         for (Hackathon hackathon : preferences) {
-            System.out.println(hackathon.obtenirNom());
+            System.out.println(hackathon.getNom());
         }
     }
 
     @Override
     public String toString() {
         return "Etudiant{" +
-                "nomEtudiant='" + nomEtudiant + '\'' +
+                "nomEtudiant='" + nomEtudiant + '\n' +
                 ", ageEtudiant=" + ageEtudiant +
-                ", note='" + noteEtudiant + '\'' +
+                ", note='" + noteEtudiant + '\n' +
                 '}';
     }
 }
