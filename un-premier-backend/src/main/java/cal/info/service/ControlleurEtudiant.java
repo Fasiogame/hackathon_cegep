@@ -1,6 +1,7 @@
 package cal.info.service;
 
 import cal.info.modele.Etudiant;
+import cal.info.modele.Hackathon;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import tools.jackson.databind.ObjectMapper;
@@ -9,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ControlleurEtudiant implements HttpHandler {
     ObjectMapper mapper = new ObjectMapper();
@@ -41,13 +44,6 @@ public class ControlleurEtudiant implements HttpHandler {
                 exchange.sendResponseHeaders(404, 0);
                 break;
         }
-
-//        System.out.println("Received request Etudiant");
-//        String response = "Bienvenue sur la page ETUDIANT !";
-//        exchange.sendResponseHeaders(200, response.length());
-//        OutputStream os = exchange.getResponseBody();
-//        os.write(response.getBytes());
-//        os.close();
     }
 
     private void afficherEtudiant(HttpExchange exchange) throws IOException {
@@ -78,21 +74,23 @@ public class ControlleurEtudiant implements HttpHandler {
 
     public void afficherEtudiantsHackathon(HttpExchange exchange) throws IOException {
         String[] cleValeur = getCleValeurURI(exchange);
-        int matricule = Integer.parseInt(cleValeur[1]);
-        System.out.println("MATRICULE " + matricule);
+        int id = Integer.parseInt(cleValeur[1]);
+        System.out.println("MATRICULE " + id);
         String etudiant ;
-
-
-
-
-        if (listeEtudiantsTemp.get(matricule) == null) {
-            etudiant = "";
-        } else {
-           etudiant =  listeEtudiantsTemp.get(matricule).toString();
+         List<Etudiant> listeEtudiantPref = new ArrayList<>();
+        for (int i :  listeEtudiantsTemp.keySet()) {
+            if(listeEtudiantsTemp.get(i).getPreferencesHackathons().contains(id)) {
+                listeEtudiantPref.add(listeEtudiantsTemp.get(i));
+            }
         }
-        byte[] cleValeurConvertie = mapper.writeValueAsBytes(etudiant);
 
-        ecrireReponse(exchange, cleValeurConvertie);
+        byte[] listeConvertie = mapper.writeValueAsBytes(listeEtudiantPref);
+
+        ecrireReponse(exchange, listeConvertie);
+    }
+
+    public void ajouterPreferencesHackathon(HttpExchange exchange) throws IOException {
+        Etudiant
     }
 
     private static String[] getCleValeurURI(HttpExchange exchange) {
