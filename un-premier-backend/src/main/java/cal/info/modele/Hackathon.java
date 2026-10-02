@@ -10,11 +10,14 @@ public class Hackathon {
 
     public Hackathon() {}
 
-    public Hackathon(String nomHackathon, LocalDate dateHackathon, String lieuHackathon){
+    public Hackathon(int idHackathon, String nomHackathon, LocalDate dateHackathon, String lieuHackathon){
+        setId(idHackathon);
         setNom(nomHackathon);
         setDate(dateHackathon);
         setLieu(lieuHackathon);
     }
+
+    public void setId(int idHackathon) { this.idHackathon = idHackathon; }
 
     public void setNom(String nomHackathon) {
         this.nomHackathon = nomHackathon;
@@ -40,12 +43,15 @@ public class Hackathon {
         return lieuHackathon;
     }
 
+    public int getId() { return idHackathon; }
+
     @Override
     public String toString() {
-        return "Hackathon{" +
-                "nomHackathon='" + nomHackathon + '\n' +
-                ", dateHackathon=" + dateHackathon +
-                ", lieuHackathon='" + lieuHackathon + '\n' +
+        return "{" +
+                "id='" + getId() + '\n' +
+                "nomHackathon='" + getNom() + '\n' +
+                ", dateHackathon=" + getDate() + '\n' +
+                ", lieuHackathon='" + getLieu() + '\n' +
                 '}';
     }
 }

@@ -1,11 +1,7 @@
 package cal.info;
 
-import cal.info.modele.Equipe;
-import cal.info.modele.Etudiant;
-import cal.info.modele.Hackathon;
 import cal.info.service.ControlleurEtudiant;
 import cal.info.service.ControlleurHackathon;
-import cal.info.service.GestionHackathon;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -13,7 +9,6 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.time.LocalDate;
 
 /**
  * Hello world!
@@ -58,7 +53,7 @@ public static void main(String[] args) throws IOException {
         }
     });
 
-    serveur.createContext("/cheminexample", new Example());
+    serveur.createContext("/cheminexample", new utilitaire());
     serveur.createContext("/hackathon", new ControlleurHackathon());
     serveur.createContext("/etudiant", new ControlleurEtudiant());
 

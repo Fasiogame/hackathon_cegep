@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class ControlleurHackathon implements HttpHandler {
     ObjectMapper mapper = new ObjectMapper();
-    HashMap<String, Hackathon> listeHackathonTemp = new HashMap<String, Hackathon>();
+    HashMap<Integer, Hackathon> listeHackathonTemp = new HashMap<Integer, Hackathon>();
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 //        System.out.println("Received request hackathon");
@@ -39,6 +39,9 @@ public class ControlleurHackathon implements HttpHandler {
                 modifierHackathon(exchange);
                 break;
             case "DELETE":
+                if (exchange.getRequestURI().getQuery() == null) {
+                    exchange.sendResponseHeaders(400, 0);
+                }
                 supprimerHackathon(exchange);
                 break;
             default:
@@ -53,7 +56,7 @@ public class ControlleurHackathon implements HttpHandler {
 //        byte[] hackathonTestJson = mapper.writeValueAsString(hackathonTest).getBytes(StandardCharsets.UTF_8);
 
         String listeTemp = "";
-        for (String i : listeHackathonTemp.keySet()) {
+        for (int i : listeHackathonTemp.keySet()) {
             listeTemp += listeHackathonTemp.get(i).toString() + "\n";
         }
         byte[] hackathonConverti = mapper.writeValueAsBytes(listeTemp);
@@ -66,15 +69,23 @@ public class ControlleurHackathon implements HttpHandler {
     }
 
     private void ajouterHackathon(HttpExchange exchange) throws IOException {
-        System.out.println("POST HACKATHON !");
+        Hackathon hackathon = lireRequest("POST HACKATHON !", exchange);
+        System.out.println(hackathon.toString());
+        listeHackathonTemp.put(hackathon.getId(), hackathon);
+
+        //REPONSE
+        ecrireReponse("Hackathon ajouté", exchange);
+    }
+
+    private Hackathon lireRequest(String x, HttpExchange exchange) throws IOException {
+        System.out.println(x);
         InputStream input = exchange.getRequestBody();
         Hackathon hackathon = mapper.readValue(input.readAllBytes(), Hackathon.class);
         input.close();
-        System.out.println(hackathon.toString());
-        listeHackathonTemp.put(hackathon.getNom(), hackathon);
+        return hackathon;
+    }
 
-        //REPONSE
-        String response = "Hackathon ajouté";
+    private static void ecrireReponse(String response, HttpExchange exchange) throws IOException {
         byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(200, octetsReponse.length);
         OutputStream output = exchange.getResponseBody();
@@ -83,32 +94,31 @@ public class ControlleurHackathon implements HttpHandler {
     }
 
     private void modifierHackathon(HttpExchange exchange) throws IOException{
-        System.out.println("PUT/PATCH HACKATHON !");
-        InputStream input = exchange.getRequestBody();
-        Hackathon hackathon = mapper.readValue(input.readAllBytes(), Hackathon.class);
-        input.close();
+        Hackathon hackathon = lireRequest("PUT/PATCH HACKATHON !", exchange);
         System.out.println(hackathon.toString());
-        listeHackathonTemp.replace(hackathon.getNom(), hackathon);
+        listeHackathonTemp.replace(hackathon.getId(), hackathon);
 
 
         //REPONSE
-        String response = "Hackathon modifié";
-        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
-        exchange.sendResponseHeaders(200, octetsReponse.length);
-        OutputStream output = exchange.getResponseBody();
-        output.write(octetsReponse);
-        output.close();
+        ecrireReponse("Hackathon modifié", exchange);
     }
 
     private void supprimerHackathon(HttpExchange exchange) throws IOException{
         System.out.println("DELETE HACKATHON !");
-        String input = exchange.getRequestURI().getQuery();
+        String[] cleValeur = getCleValeurURI(exchange);
+        int id = Integer.parseInt(cleValeur[1]);
+        System.out.println("Supprimer HACKATHON ! : " + id);
+        listeHackathonTemp.remove(id);
 
-        String response = "Hackathon supprimé" + " " + input;
-        byte[] octetsReponse = response.getBytes(StandardCharsets.UTF_8);
-        exchange.sendResponseHeaders(200, octetsReponse.length);
-        OutputStream output = exchange.getResponseBody();
-        output.write(octetsReponse);
-        output.close();
+        ecrireReponse("Hackathon supprimé", exchange);
     }
+    private static String[] getCleValeurURI(HttpExchange exchange) {
+        String input = exchange.getRequestURI().getQuery();
+        String[] cleValeur = input.split("=");
+        for (int i = 0; i < cleValeur.length; i++) {
+            System.out.print(cleValeur[i] + " ");
+        }
+        return cleValeur;
+    }
+
 }
