@@ -3,6 +3,7 @@ package cal.info.modele;
 import java.time.LocalDate;
 
 public class Hackathon {
+    private int idHackathon;
     private String nomHackathon;
     private LocalDate dateHackathon;
     private String lieuHackathon;

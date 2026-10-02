@@ -3,22 +3,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Etudiant {
+    private int matriculeEtudiant;
     private String nomEtudiant;
     private int ageEtudiant;
     private double noteEtudiant;
-    private List<Hackathon> preferences = new ArrayList<Hackathon>(5);
+    private List<Hackathon> preferencesHackathons;
+
 
     public Etudiant() {
     }
 
-    public Etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant) {
-        //this.nomEtudiant = nomEtudiant;
-        //this.ageEtudiant = ageEtudiant;
-        //this.noteEtudiant = noteEtudiant;
+    public Etudiant(String nomEtudiant, int ageEtudiant, double noteEtudiant, int matriculeEtudiant) {
         setNom(nomEtudiant);
         setAge(ageEtudiant);
         setNote(noteEtudiant);
+        setMatricule(matriculeEtudiant);
+        this.preferencesHackathons = new ArrayList<>();
     }
+
+    public void setMatricule(int matriculeEtudiant) {this.matriculeEtudiant = matriculeEtudiant;}
 
     public void setNom(String nomEtudiant) {
         if (nomEtudiant.isBlank()) {
@@ -39,6 +42,7 @@ public class Etudiant {
         }
     }
 
+    public int getMatriculeEtudiant() {return matriculeEtudiant;}
     public String getNom(){
         return this.nomEtudiant;
     }
@@ -48,18 +52,12 @@ public class Etudiant {
     public double getNote(){
         return this.noteEtudiant;
     }
-    public void ajouterPreferenceHackathon(Hackathon hackathon) {
-        preferences.add(hackathon);
-    }
 
-    public Hackathon getPreferences(){
-       return preferences.get(0);
+    public List<Hackathon> getPreferencesHackathons() {
+        return this.preferencesHackathons;
     }
-
-    public void afficherPreferences(){
-        for (Hackathon hackathon : preferences) {
-            System.out.println(hackathon.getNom());
-        }
+    public void ajouterUnePreference(Hackathon hackathon){
+        this.preferencesHackathons.add(hackathon);
     }
 
     @Override
@@ -68,6 +66,7 @@ public class Etudiant {
                 "nomEtudiant='" + nomEtudiant + '\n' +
                 ", ageEtudiant=" + ageEtudiant +
                 ", note='" + noteEtudiant + '\n' +
+                ", matricule='" + matriculeEtudiant + '\n' +
                 '}';
     }
 }
